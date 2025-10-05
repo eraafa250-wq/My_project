@@ -2,7 +2,6 @@
 venv/
 
 # Django статические файлы
-static/
 staticfiles/
 media/
 
