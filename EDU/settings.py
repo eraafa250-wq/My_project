@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'users',
     "ckeditor",
     "ckeditor_uploader",
-    'courses',
 ]
 
 MEDIA_URL = '/media/'
