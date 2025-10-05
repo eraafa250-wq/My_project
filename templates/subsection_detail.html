@@ -1,0 +1,993 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+   {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ subsection.title }} - MedEdu</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+                     <header class="header" >
+           
+            <svg  class="fff" xmlns="http://www.w3.org/2000/svg"  color="#155dfc" fill="none" width="35" height="35" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+            </svg>
+            <h1>MedEdu</h1>
+            
+ <nav class="nav-links" id="navLinks">
+  <a href="/">Басты бет</a>
+                <a href="{% url 'course_list' %}">Анатомия</a>
+                <a href="#about">Гистология</a>
+                <a href="#contact">Физилогия</a>
+                <a href="#contact">Фармакология</a>
+                <a href="#contact">Биохимия</a>
+             
+ {% if user.is_authenticated %}
+                    <button class="login"><a href="{% url 'login' %}">Шығу</a></button>
+                {% else %}
+          <button class="login"><a href="{% url 'login' %}">Кіру</a></button>
+            <button class="signup"><a href="{% url 'register' %}">Тіркелу</a></button>
+                {% endif %}
+ 
+            </nav>
+                <button class="menu-toggle" id="menuToggle">
+    <span id="menuIcon">☰</span>
+       </button>
+        </header>
+    <!-- Main Container -->
+    <div class="subsection-container">
+        <!-- Header Section -->
+        <header class="subsection-header">
+            <div class="header-content">
+                <div class="breadcrumb">
+                    <a href="/">Басты бет</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <a href="/"> {{subsection.section.title }}</a>  
+                    <i class="fas fa-chevron-right"></i>
+                    <span>{{ subsection.title }}</span>
+                </div>
+                
+                <h1 class="subsection-title">{{ subsection.title }}</h1>
+                <p class="subsection-description">{{ subsection.description }}</p>
+                
+                <div class="subsection-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-book"></i>
+                        <span>{{ subsection.lessons.count }} сабақ</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span>2.5 сағат</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-signal"></i>
+                        <span>Орташа деңгей</span>
+                    </div>
+                </div>
+            </div>
+            <div class="header-illustration">
+                <div class="floating-icons">
+                    <div class="icon-bubble bubble-1">
+                        <i class="fas fa-microscope"></i>
+                    </div>
+                    <div class="icon-bubble bubble-2">
+                        <i class="fas fa-dna"></i>
+                    </div>
+                    <div class="icon-bubble bubble-3">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Lessons Section -->
+        <section class="lessons-section">
+            <div class="section-header">
+                <h2>
+                    <i class="fas fa-graduation-cap"></i>
+                    Бөлім тақрыптары
+                </h2>
+                <p>Жақсырақ түсіну үшін материалды кезең-кезеңімен зерттеңіз.</p>
+            </div>
+
+            <div class="lessons-container">
+                {% for lesson in subsection.lessons.all %}
+                    <div class="lesson-block">
+                        <div class="lesson-number">
+                            {{ forloop.counter }}
+                        </div>
+                        <div class="lesson-content">
+                            <div class="lesson-header">
+                                <h3 class="lesson-title">
+                                    <a href="{% url 'lesson_detail' lesson.id %}">{{ lesson.title }}</a>
+                                </h3>
+                                <div class="lesson-badges">
+                                    {% if lesson.is_free %}
+                                        <span class="badge badge-free">Тегін</span>
+                                    {% endif %}
+                                    {% if lesson.has_video %}
+                                        <span class="badge badge-video">
+                                            <i class="fas fa-play"></i> Видео
+                                        </span>
+                                    {% endif %}
+                                    {% if lesson.has_quiz %}
+                                        <span class="badge badge-quiz">
+                                            <i class="fas fa-question-circle"></i> Тест
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <p class="lesson-description">{{ lesson.description|default:"Практикалық мысалдар мен тапсырмалар арқылы тақырыпты егжей-тегжейлі оқу" }}</p>
+                            
+                            
+                            <div class="lesson-progress">
+                                {% if lesson.is_completed %}
+                                    <div class="progress-indicator completed">
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>Аяқталды</span>
+                                    </div>
+                                {% elif lesson.is_started %}
+                                    <div class="progress-indicator in-progress">
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: {{ lesson.progress_percent }}%;"></div>
+                                        </div>
+                                        <span>{{ lesson.progress_percent }}% Аяқталды</span>
+                                    </div>
+                                {% else %}
+                                    <div class="progress-indicator not-started">
+                                        <i class="fas fa-play-circle"></i>
+                                        <span>Тақрыпты бастау</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="lesson-actions">
+                            <a href="{% url 'lesson_detail' lesson.id %}" class="btn-primary">
+                                {% if lesson.is_completed %}
+                                    <i class="fas fa-redo"></i>
+                                    Қайталау
+                                {% elif lesson.is_started %}
+                                    <i class="fas fa-play"></i>
+                                    Жалғастыру
+                                {% else %}
+                                    <i class="fas fa-play"></i>
+                                    бастау
+                                {% endif %}
+                            </a>
+                            
+
+                           
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <h3>Жақында сабақтар келеді</h3>
+                        <p>Біз осы бөлім үшін сапалы мазмұнды жасау үстіндеміз.</p>
+                        <button class="btn-notify">
+                            <i class="fas fa-bell"></i>
+                           Сабақтар пайда болған кезде маған хабарлаңыз
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Additional Info Section -->
+        <section class="additional-info">
+            <div class="info-cards">
+                <div class="info-card">
+                    <a class="test-link" href="{% url 'quiz_view' subsection.id %}">
+                    <div class="card-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h4>Тест тапсырыңыз</h4>
+                    <p> Бөлімді қаншалықты түсгеніңзді тексеру үшін тесттен өтіңіз</p>
+                   </a>
+                </div>
+                
+
+                <div class="info-card">
+                    <a class="test-link" href="https://t.me/+QmoSgWecIwxlMDcy">
+                    <div class="card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h4>Қауымдастық</h4>
+                    <p>Сұрақтарды басқа студенттермен талқылаңыз</p>
+                    </a>
+                </div>
+                
+                <div class="info-card">
+                    <a class="test-link" href="https://www.instagram.com/rinakhasanova/">
+                    <div class="card-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h4>Қолдау</h4>
+                    <p>Біздің мамандардан көмек алыңыз</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+            <footer class="footer">
+            <p>&copy; 2025 MedEdu. All rights reserved.</p>
+            <div class="social-icons">
+                <a href="#">
+                    <svg fill="currentColor" width="35px" height="35px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M576 320C576 178.6 461.4 64 320 64C178.6 64 64 178.6 64 320C64 440 146.7 540.8 258.2 568.5L258.2 398.2L205.4 398.2L205.4 320L258.2 320L258.2 286.3C258.2 199.2 297.6 158.8 383.2 158.8C399.4 158.8 427.4 162 438.9 165.2L438.9 236C432.9 235.4 422.4 235 409.3 235C367.3 235 351.1 250.9 351.1 292.2L351.1 320L434.7 320L420.3 398.2L351 398.2L351 574.1C477.8 558.8 576 450.9 576 320z"/></svg>
+                </a>
+                <a href="#">
+                    <svg fill="currentColor" width="35px" height="35px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M453.2 112L523.8 112L369.6 288.2L551 528L409 528L297.7 382.6L170.5 528L99.8 528L264.7 339.5L90.8 112L236.4 112L336.9 244.9L453.2 112zM428.4 485.8L467.5 485.8L215.1 152L173.1 152L428.4 485.8z"/></svg>
+                </a>
+                <a href="https://www.instagram.com/rinakhasanova?igsh=MTVvdWpyamJ5NHJ6aA%3D%3D&utm_source=qr ">
+                    <svg fill="currentColor" width="35px" height="35px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M320.3 205C256.8 204.8 205.2 256.2 205 319.7C204.8 383.2 256.2 434.8 319.7 435C383.2 435.2 434.8 383.8 435 320.3C435.2 256.8 383.8 205.2 320.3 205zM319.7 245.4C360.9 245.2 394.4 278.5 394.6 319.7C394.8 360.9 361.5 394.4 320.3 394.6C279.1 394.8 245.6 361.5 245.4 320.3C245.2 279.1 278.5 245.6 319.7 245.4zM413.1 200.3C413.1 185.5 425.1 173.5 439.9 173.5C454.7 173.5 466.7 185.5 466.7 200.3C466.7 215.1 454.7 227.1 439.9 227.1C425.1 227.1 413.1 215.1 413.1 200.3zM542.8 227.5C541.1 191.6 532.9 159.8 506.6 133.6C480.4 107.4 448.6 99.2 412.7 97.4C375.7 95.3 264.8 95.3 227.8 97.4C192 99.1 160.2 107.3 133.9 133.5C107.6 159.7 99.5 191.5 97.7 227.4C95.6 264.4 95.6 375.3 97.7 412.3C99.4 448.2 107.6 480 133.9 506.2C160.2 532.4 191.9 540.6 227.8 542.4C264.8 544.5 375.7 544.5 412.7 542.4C448.6 540.7 480.4 532.5 506.6 506.2C532.8 480 541 448.2 542.8 412.3C544.9 375.3 544.9 264.5 542.8 227.5zM495 452C487.2 471.6 472.1 486.7 452.4 494.6C422.9 506.3 352.9 503.6 320.3 503.6C287.7 503.6 217.6 506.2 188.2 494.6C168.6 486.8 153.5 471.7 145.6 452C133.9 422.5 136.6 352.5 136.6 319.9C136.6 287.3 134 217.2 145.6 187.8C153.4 168.2 168.5 153.1 188.2 145.2C217.7 133.5 287.7 136.2 320.3 136.2C352.9 136.2 423 133.6 452.4 145.2C472 153 487.1 168.1 495 187.8C506.7 217.3 504 287.3 504 319.9C504 352.5 506.7 422.6 495 452z"/></svg>
+                </a>
+            </div>
+        </footer>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        .subsection-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        .subsection-header {
+            background: linear-gradient(135deg, #155dfc, #667eea);
+            color: white;
+            padding: 60px 40px;
+            border-radius: 20px;
+            margin: 20px 0 40px 0;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-content {
+            flex: 1;
+            z-index: 2;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        .test-link{
+            color: #155dfc;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .breadcrumb a:hover {
+            opacity: 0.8;
+        }
+
+        .breadcrumb i {
+            font-size: 0.8rem;
+        }
+
+        .subsection-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .subsection-description {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 25px;
+            max-width: 600px;
+        }
+
+        .subsection-meta {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .meta-item i {
+            width: 16px;
+            opacity: 0.9;
+        }
+
+        /* Floating Icons */
+        .header-illustration {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            flex-shrink: 0;
+        }
+
+        .floating-icons {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .icon-bubble {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .icon-bubble i {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .bubble-1 {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .bubble-2 {
+            top: 60%;
+            right: 20%;
+            animation-delay: 2s;
+        }
+
+        .bubble-3 {
+            bottom: 10%;
+            left: 40%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Lessons Section */
+        .lessons-section {
+            margin: 60px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: #2d3748;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .section-header h2 i {
+            color: #155dfc;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: #718096;
+        }
+
+        /* Lesson Block */
+        .lesson-block {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            position: relative;
+            display: flex;
+            gap: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .lesson-block:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+        }
+
+        .lesson-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #155dfc, #667eea);
+            color: white;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .lesson-content {
+            flex: 1;
+        }
+
+        .lesson-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .lesson-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .lesson-title a {
+            color: #2d3748;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .lesson-title a:hover {
+            color: #155dfc;
+        }
+
+        .lesson-badges {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .badge-free {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .badge-video {
+            background: #fed7d7;
+            color: #c53030;
+        }
+
+        .badge-quiz {
+            background: #bee3f8;
+            color: #2a69ac;
+        }
+
+        .lesson-description {
+            color: #718096;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .lesson-meta {
+            margin-bottom: 20px;
+        }
+
+        .meta-row {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .lesson-meta .meta-item {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .lesson-meta .meta-item i {
+            color: #155dfc;
+        }
+
+        .lesson-topics {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .topics-label {
+            font-size: 0.85rem;
+            color: #718096;
+            font-weight: 500;
+        }
+
+        .topic-tag {
+            background: #edf2f7;
+            color: #4a5568;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Progress Indicator */
+        .lesson-progress {
+            margin-bottom: 20px;
+        }
+
+        .progress-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .progress-indicator.completed {
+            color: #38a169;
+        }
+
+        .progress-indicator.completed i {
+            font-size: 1.1rem;
+        }
+
+        .progress-indicator.in-progress {
+            color: #3182ce;
+        }
+
+        .progress-bar {
+            width: 100px;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3182ce, #63b3ed);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-indicator.not-started {
+            color: #718096;
+        }
+
+        /* Action Buttons */
+        .lesson-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #155dfc, #667eea);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(21, 93, 252, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f7fafc;
+            color: #4a5568;
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+
+        .btn-secondary:hover {
+            background: #edf2f7;
+            color: #2d3748;
+        }
+
+        /* Dropdown */
+        .lesson-dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 8px;
+            min-width: 200px;
+            z-index: 10;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+        }
+
+        .lesson-dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            color: #4a5568;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .dropdown-item:hover {
+            background: #f7fafc;
+        }
+
+        .dropdown-item i {
+            width: 16px;
+            color: #718096;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 40px;
+            background: white;
+            border-radius: 20px;
+            border: 2px dashed #e2e8f0;
+        }
+
+        .empty-icon {
+            width: 100px;
+            height: 100px;
+            background: #f7fafc;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+        }
+
+        .empty-icon i {
+            font-size: 2.5rem;
+            color: #a0aec0;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            color: #718096;
+            margin-bottom: 25px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-notify {
+            background: #155dfc;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0 auto;
+            transition: all 0.3s;
+        }
+
+        .btn-notify:hover {
+            background: #0d47d4;
+            transform: translateY(-2px);
+        }
+
+        /* Additional Info */
+        .additional-info {
+            margin: 60px 0;
+        }
+
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .info-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #155dfc, #667eea);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+        }
+
+        .card-icon i {
+            font-size: 1.8rem;
+        }
+
+        .info-card h4 {
+            font-size: 1.2rem;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .info-card p {
+            color: #718096;
+            line-height: 1.6;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .subsection-header {
+                flex-direction: column;
+                text-align: center;
+                padding: 40px 20px;
+            }
+
+            .header-illustration {
+                width: 200px;
+                height: 120px;
+                margin-top: 20px;
+            }
+
+            .subsection-title {
+                font-size: 2rem;
+            }
+
+            .subsection-meta {
+                justify-content: center;
+            }
+
+            .lesson-block {
+                flex-direction: column;
+                padding: 20px;
+            }
+
+            .lesson-actions {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .meta-row {
+                justify-content: center;
+                text-align: center;
+            }
+
+            .lesson-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+
+    <script>
+        function toggleBookmark(lessonId) {
+            const button = event.currentTarget;
+            const icon = button.querySelector('i');
+            
+            if (icon.classList.contains('fas')) {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                button.style.color = '#718096';
+            } else {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                button.style.color = '#155dfc';
+            }
+            
+            // Here you would make an AJAX call to save bookmark status
+            console.log('Toggled bookmark for lesson:', lessonId);
+        }
+
+        // Animate progress bars when they come into view
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const progressBars = entry.target.querySelectorAll('.progress-fill');
+                    progressBars.forEach(bar => {
+                        const width = bar.style.width;
+                        bar.style.width = '0';
+                        setTimeout(() => {
+                            bar.style.width = width;
+                        }, 500);
+                    });
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.lesson-block').forEach(block => {
+            observer.observe(block);
+        });
+
+        // Add hover effect to lesson blocks
+        document.querySelectorAll('.lesson-block').forEach(block => {
+            block.addEventListener('mouseenter', function() {
+                this.style.borderColor = '#155dfc';
+            });
+            
+            block.addEventListener('mouseleave', function() {
+                this.style.borderColor = '#e2e8f0';
+            });
+        });
+
+
+
+
+
+
+
+
+
+
+                document.addEventListener('DOMContentLoaded', function() {
+            // Animate cards on scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.subsection-card').forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = `all 0.5s ease ${index * 0.1}s`;
+                observer.observe(card);
+            });
+        });
+
+
+
+
+        setInterval(() => {
+  slides[index].classList.remove("active");
+  index = (index + 1) % slides.length;
+  slides[index].classList.add("active");
+}, 2000);
+
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        const menuIcon = document.getElementById('menuIcon');
+
+        menuToggle.addEventListener('click', function() {
+            navLinks.classList.toggle('show');
+            
+            // Change icon based on menu state
+            if (navLinks.classList.contains('show')) {
+                menuIcon.textContent = '✕';
+            } else {
+                menuIcon.textContent = '☰';
+            }
+        });
+
+        // Close menu when clicking on a link (optional)
+        const navItems = navLinks.querySelectorAll('a');
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                navLinks.classList.remove('show');
+                menuIcon.textContent = '☰';
+            });
+        });
+
+        // Close menu when clicking outside (optional)
+        document.addEventListener('click', function(event) {
+            const isClickInsideNav = navLinks.contains(event.target);
+            const isClickOnToggle = menuToggle.contains(event.target);
+            
+            if (!isClickInsideNav && !isClickOnToggle && navLinks.classList.contains('show')) {
+                navLinks.classList.remove('show');
+                menuIcon.textContent = '☰';
+            }
+        });
+
+        // Close menu on window resize if it gets too wide
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768 && navLinks.classList.contains('show')) {
+                navLinks.classList.remove('show');
+                menuIcon.textContent = '☰';
+            }
+        });
+    </script>
+</body>
+</html>

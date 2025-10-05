@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Регистрация</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #4facfe, #005bea);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      padding: 15px;
+    }
+
+    .container {
+      background: #ffffff;
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      box-sizing: border-box;
+    }
+
+    h2 {
+      margin-bottom: 28px;
+      font-size: 26px;
+      font-weight: 700;
+      background: linear-gradient(90deg,#4facfe,#005bea);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .input-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      font-size: 15px;
+      transition: all 0.3s;
+      background: #f9f9f9;
+      box-sizing: border-box;
+    }
+
+    .input-wrapper.password-field input {
+      padding-right: 45px;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #4facfe;
+      box-shadow: 0 0 10px rgba(79,172,254,0.3);
+      background: #fff;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.3s;
+    }
+
+    .toggle-password:hover {
+      opacity: 0.7;
+    }
+
+    .toggle-password svg {
+      width: 22px;
+      height: 22px;
+      fill: #888;
+      transition: fill 0.3s;
+    }
+
+    .toggle-password:hover svg {
+      fill: #4facfe;
+    }
+
+    button[type="submit"] {
+      padding: 14px;
+      background: linear-gradient(90deg,#4facfe,#005bea);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.3s;
+    }
+
+    button[type="submit"]:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0,91,234,0.4);
+    }
+
+    .link {
+      display: block;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #555;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .link:hover {
+      color: #005bea;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 30px 20px;
+        border-radius: 15px;
+      }
+
+      h2 {
+        font-size: 22px;
+      }
+
+      input {
+        padding: 12px;
+        font-size: 14px;
+      }
+
+      .input-wrapper.password-field input {
+        padding-right: 40px;
+      }
+
+      .toggle-password svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      button[type="submit"] {
+        padding: 12px;
+        font-size: 15px;
+      }
+
+      .link {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Регистрация</h2>
+
+
+
+<style>
+  .error-container {
+    background: #fff5f5;
+    border-left: 4px solid #f56565;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(245, 101, 101, 0.1);
+  }
+
+  .error-title {
+    color: #c53030;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .error-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .error-item {
+    color: #742a2a;
+    font-size: 14px;
+    padding: 6px 0;
+    line-height: 1.5;
+  }
+
+  .error-field {
+    font-weight: 600;
+    color: #c53030;
+  }
+
+  @media (max-width: 480px) {
+    .error-container {
+      padding: 14px 16px;
+    }
+
+    .error-title {
+      font-size: 15px;
+    }
+
+    .error-item {
+      font-size: 13px;
+    }
+  }
+</style>
+
+{% if form.errors %}
+  <div class="error-container">
+    <div class="error-title">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+      </svg>
+      Пожалуйста, исправьте ошибки:
+    </div>
+    <ul class="error-list">
+      {% for field, errors in form.errors.items %}
+        {% for error in errors %}
+          <li class="error-item">
+            <span class="error-field">
+              {% if field == 'username' %}
+                Имя пользователя
+              {% elif field == 'email' %}
+                Email
+              {% elif field == 'password1' %}
+                Пароль
+              {% elif field == 'password2' %}
+                Подтверждение пароля
+              {% elif field == '__all__' %}
+                Общая ошибка
+              {% else %}
+                {{ field }}
+              {% endif %}:
+            </span>
+            {% if 'already exists' in error or 'уже существует' in error %}
+              уже занято
+            {% elif 'required' in error or 'обязательно' in error %}
+              обязательно для заполнения
+            {% elif 'match' in error or 'совпадают' in error %}
+              пароли не совпадают
+            {% elif 'too short' in error or 'короткий' in error %}
+              слишком короткий
+            {% elif 'too common' in error or 'распространенный' in error %}
+              слишком простой пароль
+            {% elif 'numeric' in error or 'цифры' in error %}
+              не может состоять только из цифр
+            {% else %}
+              {{ error }}
+            {% endif %}
+          </li>
+        {% endfor %}
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+
+
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="input-wrapper">
+        <input type="text" name="username" placeholder="Имя пользователя" required>
+      </div>
+
+      <div class="input-wrapper">
+        <input type="email" name="email" placeholder="Email" required>
+      </div>
+
+      <div class="input-wrapper password-field">
+        <input type="password" id="password1" name="password1" placeholder="Пароль" required>
+        <button type="button" class="toggle-password" onclick="togglePassword('password1', this)">
+          <svg class="eye-icon" viewBox="0 0 24 24">
+            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+          </svg>
+          <svg class="eye-off-icon" style="display: none;" viewBox="0 0 24 24">
+            <path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="input-wrapper password-field">
+        <input type="password" id="password2" name="password2" placeholder="Повторите пароль" required>
+        <button type="button" class="toggle-password" onclick="togglePassword('password2', this)">
+          <svg class="eye-icon" viewBox="0 0 24 24">
+            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+          </svg>
+          <svg class="eye-off-icon" style="display: none;" viewBox="0 0 24 24">
+            <path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>
+          </svg>
+        </button>
+      </div>
+
+
+
+
+
+
+      <button type="submit">Зарегистрироваться</button>
+    </form>
+    <a href="{% url 'login' %}" class="link">Уже есть аккаунт? Войти</a>
+  </div>
+
+  <script>
+    function togglePassword(inputId, button) {
+      var input = document.getElementById(inputId);
+      var eyeIcon = button.querySelector('.eye-icon');
+      var eyeOffIcon = button.querySelector('.eye-off-icon');
+
+      if (input.type === 'password') {
+        input.type = 'text';
+        eyeIcon.style.display = 'none';
+        eyeOffIcon.style.display = 'block';
+      } else {
+        input.type = 'password';
+        eyeIcon.style.display = 'block';
+        eyeOffIcon.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- адаптивность -->
+  <title>Кіру</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #4facfe, #005bea);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      padding: 15px; /* чтобы на мобильных не прилипало */
+    }
+
+    .container {
+      background: #ffffff;
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+      box-sizing: border-box;
+    }
+
+    h2 {
+      margin-bottom: 25px;
+      font-size: 26px;
+      font-weight: 700;
+      background: linear-gradient(90deg,#4facfe,#005bea);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .input-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    input {
+      width: 100%; /* исправлено с 90% */
+      padding: 14px 50px 14px 16px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      font-size: 15px;
+      transition: all 0.3s;
+      background: #f9f9f9;
+      box-sizing: border-box;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #4facfe;
+      box-shadow: 0 0 10px rgba(79,172,254,0.3);
+      background: #fff;
+    }
+
+    .toggle-btn {
+      position: absolute;
+      top: 50%;
+      right: 14px;
+      transform: translateY(-50%);
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: 18px;
+      color: #888;
+    }
+
+    button[type="submit"] {
+      padding: 14px;
+      background: linear-gradient(90deg,#4facfe,#005bea);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.3s;
+    }
+
+    button[type="submit"]:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(37,117,252,0.4);
+    }
+
+    .link {
+      display: block;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #555;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .link:hover {
+      color: #005bea;
+    }
+
+    /* 📱 адаптивность */
+    @media (max-width: 480px) {
+      .container {
+        padding: 30px 20px;
+      }
+      h2 {
+        font-size: 22px;
+      }
+      input {
+        font-size: 14px;
+        padding: 12px 45px 12px 14px;
+      }
+      button[type="submit"] {
+        font-size: 15px;
+        padding: 12px;
+      }
+      .link {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Кіру</h2>
+    <form method="post">
+      {% csrf_token %}
+      
+      <div class="input-wrapper">
+        <input type="text" name="username" placeholder="Пайдаланушы аты" required>
+      </div>
+
+      <div class="input-wrapper">
+        <input type="password" id="password" name="password" placeholder="Құпиясөз" required>
+        <button type="button" class="toggle-btn" onclick="togglePassword()">👁</button>
+      </div>
+
+      <button type="submit">Жалғастыру</button>
+    </form>
+    <a href="{% url 'logout' %}" class="link">Шығу</a>
+  </div>
+
+  <script>
+    function togglePassword() {
+      const field = document.getElementById("password");
+      field.type = field.type === "password" ? "text" : "password";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,808 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ lesson.title }} - Medical Learning</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                
+            <svg  class="fff" xmlns="http://www.w3.org/2000/svg"  color="#155dfc" fill="none" width="35" height="35" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+            </svg>
+            <h1>MedEdu</h1>
+            </div>
+            <div class="nav-actions">
+                <button class="nav-btn" onclick="toggleNotes()">
+                    <i class="fas fa-sticky-note"></i>
+                    Ескертпелер
+                </button>
+                <button class="nav-btn" onclick="toggleBookmark()">
+                    <i class="fas fa-bookmark"></i>
+                    Сақтау
+                </button>
+                <button class="nav-btn" onclick="goFullscreen()">
+                    <i class="fas fa-expand"></i>
+                    Толық экран
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <div class="lesson-container">
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 0%"></div>
+            </div>
+            <span class="progress-text">0% аяқталды</span>
+        </div>
+
+        <!-- Lesson Header -->
+        <header class="lesson-header">
+            <div class="lesson-breadcrumb">
+             <a href="{% url 'section_detail' lesson.subsection.section.id %}"> {{ lesson.subsection.section.title }}</a>  
+
+
+                <i class="fas fa-chevron-right"></i>
+                <a href="{% url 'subsection_detail' lesson.subsection.id %}">{{ lesson.subsection.title }}</a>
+
+                <i class="fas fa-chevron-right"></i>
+                <span>{{ lesson.title }}</span>
+            </div>
+            
+            <h1 class="lesson-title">{{ lesson.title }}</h1>
+            
+            <div class="lesson-meta">
+                <div class="meta-item">
+                    <i class="fas fa-clock"></i>
+                    <span>15 минут</span>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-signal"></i>
+                    <span>Орташа деңгей</span>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-eye"></i>
+                    <span>1,234 көрілім</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Lesson Content -->
+        <main class="lesson-content">
+            <article class="content-wrapper">
+                {{ lesson.content|safe }}
+            </article>
+
+            <!-- Interactive Elements -->
+            <div class="lesson-interactions">
+                <div class="interaction-buttons">
+
+<button class="interaction-btn like-btn" id="like-btn" data-lesson="{{ lesson.id }}">
+    <i class="fas fa-thumbs-up"></i>
+    <span id="like-count">{{ lesson.likes.count }}</span>
+</button>
+
+<button class="interaction-btn share-btn" onclick="sharePage()">
+    <i class="fas fa-share"></i>
+    <span>Бөлісу</span>
+</button>
+
+
+
+
+<a href="https://www.instagram.com/rinakhasanova/" class="report-btn_01">
+                    <button class="interaction-btn report-btn">
+                        <i class="fas fa-flag"></i>
+                    </button>
+                    </a>
+
+                    <a class="flash_cards_style" href="{% url 'flashcards' lesson.id %}">
+                        
+                    <button class="interaction-btn flashcards-btn">
+                        <i class="fas fa-th"></i>
+                        <span>Флеш-карталар</span>
+                    </button>
+
+                    </a>
+                </div>
+                
+                <div class="lesson-tags">
+                    <span class="tag">{{ lesson.subsection.section.title }}</span>
+                    <span class="tag">{{ lesson.subsection.title }}</span>
+                    <span class="tag">Медицина</span>
+                </div>
+            </div>
+        </main>
+
+        <!-- Navigation -->
+        <nav class="lesson-navigation">
+            <a href="{% url 'subsection_detail' lesson.subsection.id %}" >
+            <button class="nav-lesson-btn prev-btn">
+                <i class="fas fa-chevron-left"></i>
+                <div>  
+                    <span>Келесі тақрып</span>
+                </div>
+            </button>
+            </a>
+                            
+
+
+            <button class="complete-btn" onclick="markComplete()">
+                <i class="fas fa-check"></i>
+                Тақырыпты аяқтау
+            </button>
+
+
+
+ <a href="{% url 'subsection_detail' lesson.subsection.id %}" >
+     <button class="nav-lesson-btn next-btn">
+                <div>
+                    <span>Алдыңғы тақырып</span>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </button>
+</a>
+
+        </nav>
+    </div>
+
+    <!-- Notes Sidebar -->
+    <div class="notes-sidebar" id="notesSidebar">
+        <div class="notes-header">
+            <h3>Менің жазбаларым</h3>
+            <button onclick="toggleNotes()" class="close-btn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="notes-content">
+            <textarea placeholder="Добавьте свои заметки к этому уроку..."></textarea>
+            <button class="save-notes-btn">
+                <i class="fas fa-save"></i>
+                Жазбаны сақтау
+            </button>
+        </div>
+    </div>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            line-height: 1.6;
+            color: #2d3748;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+        .complete-btn{
+            display: flex;
+            align-items: center;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            font-size: 1rem;
+            color: #000000;
+        }
+
+        .nav-brand i {
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+            border: 1px solid #e2e8f0;
+            padding: 8px 16px;
+            border-radius: 8px;
+            color: #4a5568;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .nav-btn:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        /* Main Container */
+        .lesson-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: white;
+            min-height: calc(100vh - 70px);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 12px;
+            color: white;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: white;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-weight: 500;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        /* Lesson Header */
+        .lesson-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .lesson-breadcrumb {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            color: #718096;
+        }
+
+        .lesson-breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .lesson-breadcrumb a:hover {
+            color: #5a67d8;
+        }
+
+        .lesson-breadcrumb i {
+            font-size: 0.8rem;
+            color: #cbd5e0;
+        }
+
+        .lesson-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .lesson-meta {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .meta-item i {
+            color: #667eea;
+        }
+
+        /* Content Styling */
+        .lesson-content {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .content-wrapper {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #2d3748;
+            text-align: justify;
+        }
+
+        .content-wrapper h1,
+        .content-wrapper h2,
+        .content-wrapper h3,
+        .content-wrapper h4,
+        .content-wrapper h5,
+        .content-wrapper h6 {
+            margin: 30px 0 15px 0;
+            color: #2d3748;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .content-wrapper h1 { font-size: 2.2rem; }
+        .content-wrapper h2 { font-size: 1.8rem; }
+        .content-wrapper h3 { font-size: 1.5rem; }
+        .content-wrapper h4 { font-size: 1.3rem; }
+
+        .content-wrapper p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .content-wrapper img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            margin: 30px auto;
+            display: block;
+        }
+
+        .content-wrapper ul,
+        .content-wrapper ol {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+
+        .content-wrapper li {
+            margin-bottom: 8px;
+        }
+
+        .content-wrapper blockquote {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: #4a5568;
+        }
+
+        .content-wrapper code {
+            background: #edf2f7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #e53e3e;
+        }
+
+        .content-wrapper pre {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        .content-wrapper table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .content-wrapper th,
+        .content-wrapper td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .content-wrapper th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+
+        .content-wrapper tr:hover {
+            background: #f7fafc;
+        }
+
+        /* Interactions */
+        .lesson-interactions {
+            margin: 50px 0;
+            padding: 30px;
+            background: #f7fafc;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .interaction-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            
+        }
+        .interaction-buttons a{
+            text-decoration: none;
+        }
+ 
+        .interaction-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            color: #4a5568;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+            
+        }
+
+        .interaction-btn:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .lesson-tags {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: #667eea;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Navigation */
+        .lesson-navigation {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid #e2e8f0;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-lesson-btn {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 20px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+            min-width: 200px;
+        }
+
+        .nav-lesson-btn:hover {
+            background: #f7fafc;
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .nav-lesson-btn div small {
+            color: #718096;
+            font-size: 0.8rem;
+            display: block;
+        }
+
+        .nav-lesson-btn div span {
+            color: #2d3748;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .complete-btn {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+
+        .complete-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(72, 187, 120, 0.3);
+        }
+
+        /* Notes Sidebar */
+        .notes-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            transition: right 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .notes-sidebar.open {
+            right: 0;
+        }
+
+        .notes-header {
+            padding: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notes-header h3 {
+            color: #2d3748;
+            font-size: 1.2rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: #718096;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .notes-content {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .notes-content textarea {
+            flex: 1;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            resize: none;
+            margin-bottom: 15px;
+        }
+
+        .save-notes-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .lesson-container {
+                padding: 20px 15px;
+            }
+
+            .lesson-title {
+                font-size: 2rem;
+            }
+
+            .content-wrapper {
+                font-size: 1rem;
+            }
+
+            .lesson-navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-lesson-btn {
+                min-width: 100%;
+            }
+
+            .lesson-meta {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-actions {
+                display: none;
+            }
+
+            .notes-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .lesson-container {
+            animation: fadeIn 0.6s ease-out;
+        }
+    </style>
+
+    <script>
+        function toggleNotes() {
+            const sidebar = document.getElementById('notesSidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        function toggleBookmark() {
+            const btn = event.target.closest('.nav-btn');
+            const icon = btn.querySelector('i');
+            
+            if (icon.classList.contains('fas')) {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                btn.style.background = '#667eea';
+                btn.style.color = 'white';
+            } else {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                btn.style.background = '';
+                btn.style.color = '';
+            }
+        }
+
+        function goFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        function markComplete() {
+            const btn = event.target.closest('.complete-btn');
+            btn.innerHTML = '<i class="fas fa-check"></i> Урок завершен!';
+            btn.style.background = 'linear-gradient(135deg, #38a169, #2f855a)';
+            
+            // Update progress bar
+            const progressFill = document.querySelector('.progress-fill');
+            const progressText = document.querySelector('.progress-text');
+            progressFill.style.width = '100%';
+            progressText.textContent = '100% завершено';
+        }
+
+        // Auto-save notes
+        document.addEventListener('DOMContentLoaded', function() {
+            const textarea = document.querySelector('.notes-content textarea');
+            if (textarea) {
+                textarea.addEventListener('input', function() {
+                    localStorage.setItem('lessonNotes', this.value);
+                });
+                
+                // Load saved notes
+                const savedNotes = localStorage.getItem('lessonNotes');
+                if (savedNotes) {
+                    textarea.value = savedNotes;
+                }
+            }
+        });
+
+
+
+        function sharePage() {
+    if (navigator.share) {
+        navigator.share({
+            title: document.title,
+            text: "Мына бетті қарашы!",
+            url: window.location.href
+        }).then(() => {
+            console.log("Shared successfully");
+        }).catch((error) => {
+            console.log("Error sharing:", error);
+        });
+    } else {
+        alert("Бұл браузерде бөлісу қолдау көрсетілмейді.");
+    }
+}
+
+
+document.getElementById('like-btn').addEventListener('click', function() {
+    const btn = this;
+    const lessonId = btn.dataset.lesson;
+
+    fetch(`/users/lesson/${lessonId}/like/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('like-count').innerText = data.count;
+        btn.classList.toggle('liked', data.liked); // можно менять цвет кнопки
+    });
+});
+
+    </script>
+</body>
+</html>
+
+
+

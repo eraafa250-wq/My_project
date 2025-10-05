@@ -1,0 +1,25 @@
+# Виртуальное окружение
+venv/
+
+# Django статические файлы
+static/
+staticfiles/
+media/
+
+# Базы данных
+db.sqlite3
+
+# Конфиденциальные файлы
+.env
+
+# Кеш и временные файлы
+__pycache__/
+*.pyc
+*.pyo
+*.log
+*.pot
+
+# Системные каталоги
+.DS_Store
+.idea/
+.vscode/
