@@ -1,0 +1,1271 @@
+
+
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    padding: 60px 40px 0 40px;
+    margin: 0px 40px 0 40px;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: black;
+    padding: 5px 0px;
+    font-size: 12px;
+    font-family: 'Inter', Arial, sans-serif;
+    position: fixed;
+    top: 0;  
+    width: 100%;
+    z-index: 1000;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+
+.h1 {
+    font-weight: normal;
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+main, .responsive {
+    background: linear-gradient(135deg, #e0e7ff 0%, #f3f8ff 100%);
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(21, 93, 252, 0.07);
+}
+
+.header svg {
+    margin-top: -15px;
+}
+
+.header h1 {
+    margin-top: -0.1px;
+}
+
+.nav-links {
+    font-size: 17px;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 8px;
+    color: #333;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.menu-toggle:hover {
+    background-color: #f3f3f5;
+}
+
+.nav-links.hidden {
+    display: none;
+}
+
+.fff {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.nav-links a {
+    font-family: 'Inter', Arial, sans-serif;
+    text-decoration: none;
+    color: #333;
+    padding: 8px 20px;
+    border-radius: 4px;
+    transition: color 0.3s, background-color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #155dfc;
+    background-color: #f3f3f5;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    padding: 8px 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px 10px 10px 10px;
+    font-size: 14px;
+    background-color: #f3f3f5;
+}
+
+.search-input:focus {
+    outline: none;
+    box-shadow: none;
+    border-color: #ccc;
+}
+
+.search-input::placeholder {
+    color: #aaa;
+}
+
+.responsive {
+    display: flex;
+    padding-top: 40px;
+    box-sizing: border-box;
+    padding-left: 30px;
+    height: 680px;
+}
+
+.nav-links a.active {
+    color: #155dfc;
+    background-color: #f3f3f5;
+}
+
+.intro-text h2 {  
+    font-size: 50px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.intro-text h3 {
+    font-size: 50px;
+    font-weight: bold;
+    color: #155dfc;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.intro-text p {
+    font-size: 20px;
+    color: #333;
+    line-height: 1.7; 
+}
+
+.body_man {
+    background-color: #f3f3f5;
+    border-radius: 10px;
+    margin-right: 40px;
+    margin-bottom: 50px;
+    object-fit: cover;
+    width: 580px;
+    height: 400px;
+}
+
+.stats {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.left {
+    max-width: 600px;
+    width: 100%;
+    padding-left: 30px;
+}
+
+.right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+.srt_lern {
+    background-color: #155dfc;
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.Watch {
+    background-color: transparent;
+    color: #155dfc;
+    border: 2px solid #155dfc;
+    padding: 11px 28px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.Watch:hover {
+    background-color: #155dfc;
+    color: white;
+    transition: 0.3s;
+}
+
+.srt_lern:hover {
+    background-color: white;
+    color: #155dfc;
+    transition: 0.3s;
+}
+
+.Watch a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.stat {
+    text-align: center;
+    margin-right: 20px;
+}
+
+.stat h3 {
+    font-size: 20px;
+    margin: 10px 0px;
+}
+
+.stat p {
+    margin-top: 8px;
+}
+
+h4 {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    padding-top: 30px;
+}
+
+.deep_learn {
+    text-align: center;
+    font-size: 18px;
+    color: #333;
+    line-height: 1.7; 
+    margin-bottom: 20px;
+}
+
+.line_2 {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.line_1 {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.card a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+
+.card a:hover {
+    box-shadow: 0 4px 20px rgba(21, 93, 252, 0.1);
+    transition: 0.3s;
+}
+
+.card h5 {
+    font-size: 20px;
+    margin: 15px 20px 1px 20px;
+    font-weight: normal;
+}
+
+.card p {
+    font-size: 14px;
+    color: #666;
+    margin: 0px 20px;
+    line-height: 1.5; 
+    margin-bottom: 20px;
+    
+}
+
+.card {
+    width: 400px;
+    height: 200px;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.card:hover {
+    transform: translateY(-8px) scale(1.07);
+    box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+}
+
+.icons-1 {
+    width: 32px;
+    height: 32px;
+    margin: 25px 0px 5px 25px;
+    border-radius: 10px;
+    background-color: #fdf2f8;
+    padding: 8px;
+}
+
+.icons-2 {
+    width: 32px;
+    height: 32px;
+    margin: 25px 0px 5px 25px;
+    border-radius: 10px;
+    background-color: #faf5ff;
+    padding: 8px;
+}
+
+.icons-3 {
+    width: 32px;
+    height: 32px;
+    margin: 25px 0px 5px 25px;
+    border-radius: 10px;
+    background-color: #f0f9ff;
+    padding: 8px;
+}
+
+.icons-4 {
+    width: 32px;
+    height: 32px;
+    margin: 25px 0px 5px 25px;
+    border-radius: 10px;
+    background-color: #eef2ff;
+    stroke: #eef2ff;
+    padding: 8px;
+}
+
+.icons-5 {
+    width: 32px;
+    height: 32px;
+    margin: 25px 0px 5px 25px;
+    border-radius: 10px;
+    background-color: #fff7ed;
+    padding: 8px;
+}
+
+.icons-6 {
+    width: 32px;
+    height: 32px;
+    margin: 25px 0px 5px 25px;
+    border-radius: 10px;
+    background-color: #eef2ff;
+    padding: 8px;
+    color: #4f39f6;
+}
+
+.icons-7 {
+    width: 32px;
+    height: 32px;
+    margin: 25px 0px 5px 25px;
+    border-radius: 10px;
+    background-color: #f0fdf4;
+    padding: 8px;
+}
+
+.icons-8 {
+    width: 32px;
+    height: 32px;
+    margin: 25px 0px 5px 25px;
+    border-radius: 10px;
+    background-color: #f0fdfa;
+    padding: 8px;
+}
+
+.footer {
+    background-color: #155dfc;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(21, 93, 252, 0.07);
+}
+
+.footer p {
+    margin: 0;
+    color: white;
+}
+
+.social-icons {
+    margin-top: 10px;
+}
+
+.social-icons a {
+    margin: 0 10px;
+    display: inline-block;
+    text-decoration: none; 
+}
+
+.social-icons svg:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+
+.social-icons svg {
+    width: 40px;
+    height: 40px;
+    filter: grayscale(100%);
+    transition: filter 0.3s;
+    color: white;
+}
+
+.social-icons img:hover {
+    filter: none;
+}
+
+.anatomy_page main {
+    background: white;
+}
+
+.top_part_anatomy {
+    display: inline-block;
+}
+
+.anatomy_page .back_click {
+    text-decoration: none;
+    font-size: 14px;
+    margin-top: 25px;
+    margin-left: -7px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 25px;
+    border-radius: 5px;
+    transition: background 0.3s;
+    color: black;
+}
+
+.anatomy_page .back_click:hover {
+    background: #f0f0f0;
+}
+
+.main_anatomy h2 {
+    font-size: 32px;
+    margin-left: 18px;
+    color: black;
+    margin-top: 15px;
+}
+
+.main_anatomy .description {
+    font-size: 20px;
+    color: #555;
+    margin-left: 18px;
+    margin-top: -5px;
+}
+
+.main_anatomy .course_details {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-left: 18px;
+    margin-top: 15px;
+    color: #555;
+}
+
+.level_anatomy {
+    background-color: #fef9c2;
+    color: #d89512;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.progress {
+    margin-left: 18px;
+    margin-top: 20px;
+    font-size: 14px;
+    color: black;
+    font-weight: 500;
+}
+
+.right_anatomy_img {
+    display: inline-block;
+    width: 380px;
+    height: 260px;
+    border-radius: 10px;
+    margin: 80px 0px 0px 290px;
+}
+
+.main_anatomy {
+    display: flex;
+    align-items: center;
+    padding: 0px 30px 30px 30px;
+}
+
+.right_anatomy_img img {
+    width: 380px;
+    height: 260px;
+    border-radius: 10px;
+    box-shadow: 0 4px 24px rgba(21, 93, 252, 0.07);
+    object-fit: cover;
+}
+
+.progress_bar {
+    width: 100%;
+    background-color: #f3f3f5;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 8px;
+    margin-top: 8px;
+    margin-right: 300px;
+    margin-left: 15px;
+}
+
+.progress_fill {
+    height: 100%;
+    background-color: black;
+    text-align: center;
+    line-height: 10px;
+    color: white;
+    font-weight: bold;
+}
+
+.module_section {
+    margin-top: 30px;
+    background-color: #f9fafb;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(21, 93, 252, 0.07);
+}
+
+.scroller {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 35px;
+    background-color: #ececf0;
+    height: 35px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.scroller p {
+    font-size: 14px;
+    color: black;
+    font-weight: 500;
+    padding: 7.0px 190px;
+    border-radius: 30px;
+    transition: color 0.1s, background-color 0.3s;
+}
+
+.scroller p.active {
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.module_section h3 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: black;
+    font-weight: normal;
+}
+
+.module {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #e5e5e5;
+    background-color: white;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    align-items: flex-start;
+}
+
+.module_content {
+    display: flex;
+    flex-direction: column;
+}
+
+.start_course {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 1px 10px;
+    height: 27px;
+    margin-left: auto;
+    color: black; 
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.start_course p {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.start_course:hover {
+    background-color: #f3f3f5;
+    transition: 0.3s;
+}
+
+.module:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+}
+
+.module h4 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+    color: black;
+}
+
+.module p {
+    margin: 5px 0 0 0;
+    font-size: 14px;
+    color: black;
+    line-height: 1.5; 
+}
+
+.login {
+    background-color: transparent;
+    color: #155dfc;
+    border: 2px solid #155dfc;
+    padding: 11px 28px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.signup {
+    background-color: #155dfc;
+    color: white;
+    border: 2px solid #155dfc;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.login:hover {
+    background-color: #155dfc;
+    color: white;
+    transition: 0.3s;
+}
+
+.signup:hover {
+    background-color: white;
+    color: #155dfc;
+    transition: 0.3s;
+}
+
+.login a, .signup a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* RESPONSIVE MEDIA QUERIES */
+
+/* Large Desktop (1200px and up) */
+@media (max-width: 1400px) {
+    .responsive {
+        height: auto;
+        padding: 30px 20px;
+    }
+    
+    .body_man {
+        width: 480px;
+        height: 320px;
+        margin-right: 20px;
+    }
+    
+    .right_anatomy_img {
+        width: 320px;
+        height: 220px;
+        margin: 60px 0px 0px 200px;
+    }
+    
+    .right_anatomy_img img {
+        width: 320px;
+        height: 220px;
+    }
+   
+
+}
+
+/* Desktop and Tablet (1200px and below) */
+@media (max-width: 1200px) {
+    body {
+        padding: 60px 20px 0 20px;
+        margin: 0px 20px 0 20px;
+    }
+
+    .responsive {
+        flex-direction: column;
+        align-items: center;
+        height: auto;
+        padding: 20px;
+    }
+    
+    .left {
+        max-width: 100%;
+        padding-left: 0;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    
+    .right {
+        margin-left: 0;
+        margin-top: 20px;
+    }
+    
+    .body_man {
+        width: 100%;
+        max-width: 500px;
+        height: 300px;
+        margin: 20px 0;
+    }
+    
+    .intro-text h2, .intro-text h3 {
+        font-size: 36px;
+    }
+    
+    .intro-text p {
+        font-size: 18px;
+    }
+    
+    .line_1, .line_2 {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+    
+    .card {
+        width: 350px;
+        height: 180px;
+    }
+    .card h5 {
+        font-size: 15px;
+        margin: 10px 15px 0 15px;
+    }
+    
+    .main_anatomy {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .right_anatomy_img {
+        margin: 20px 0 0 0;
+        width: 100%;
+        max-width: 400px;
+        height: 250px;
+    }
+    
+    .right_anatomy_img img {
+        width: 100%;
+        max-width: 400px;
+        height: 250px;
+    }
+    
+    .progress_bar {
+        margin-right: 0;
+        max-width: 400px;
+    }
+}
+
+/* Tablet (768px and below) */
+@media (max-width: 768px) {
+    body {
+        padding: 80px 15px 0 15px;
+        margin: 0px 15px 0 15px;
+    }
+    
+    .header {
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+        padding: 10px 20px;
+        height: auto;
+    }
+    
+    .menu-toggle {
+        display: block;
+        margin-bottom: 15px;
+        margin-right: 70px;
+    }
+    
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #fff;
+        flex-direction: column;
+        gap: 0;
+        width: 100%;
+        padding: 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        border-radius: 0 0 8px 8px;
+        z-index: 999;
+    }
+    
+    .nav-links.show {
+        display: flex;
+    }
+    .nav-links {
+        font-size: 16px;
+    }
+    
+    
+    .nav-links a {
+        padding: 15px 20px;
+        border-bottom: 1px solid #f0f0f0;
+        width: 100%;
+        text-align: left;
+    }
+    
+    .nav-links a:last-child {
+        border-bottom: none;
+    }
+    
+    .search-form {
+        display: none; /* Hide search on mobile, or you can show it in the dropdown */
+    }
+    
+    .responsive {
+        padding: 15px;
+        margin-top: 20px;
+    }
+    
+    .intro-text h2, .intro-text h3 {
+        font-size: 28px;
+        margin-bottom: 15px;
+    }
+    
+    .intro-text p {
+        font-size: 16px;
+    }
+    
+    .stats {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+    }
+    
+    .stat {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    
+    .srt_lern, .Watch, .login, .signup {
+        padding: 10px 20px;
+        font-size: 14px;
+        margin: 5px;
+    }
+    
+    .line_1, .line_2 {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .card {
+        width: 100%;
+        max-width: 350px;
+        height: auto;
+        min-height: 160px;
+    }
+    
+    .card h5 {
+        font-size: 18px;
+        margin: 10px 15px;
+    }
+    
+    .card p {
+        font-size: 13px;
+        margin: 0px 15px 15px 15px;
+    }
+    
+    h4 {
+        font-size: 24px;
+        padding-top: 20px;
+    }
+    
+    .deep_learn {
+        font-size: 16px;
+        padding: 0 10px;
+    }
+    
+    .main_anatomy h2 {
+        font-size: 24px;
+        margin-left: 0;
+        text-align: center;
+    }
+    
+    .main_anatomy .description {
+        font-size: 16px;
+        margin-left: 0;
+        text-align: center;
+        padding: 0 10px;
+    }
+    
+    .main_anatomy .course_details {
+        justify-content: center;
+        margin-left: 0;
+        flex-wrap: wrap;
+    }
+    
+    .progress {
+        margin-left: 0;
+        text-align: center;
+    }
+    
+    .scroller p {
+        padding: 7px 50px;
+        font-size: 12px;
+    }
+    
+    .module {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px;
+    }
+    
+    .start_course {
+        margin-left: 0;
+        margin-top: 15px;
+        align-self: flex-end;
+    }
+    
+    .social-icons svg {
+        width: 35px;
+        height: 35px;
+        margin: 0 8px;
+    }
+}
+
+/* Mobile (480px and below) */
+@media (max-width: 480px) {
+    body {
+        padding: 80px 10px 0 10px;
+        margin: 0px 10px 0 10px;
+    }
+    
+    .header {
+        padding: 8px 15px;
+    }
+    
+    .nav-links {
+        font-size: 15px;
+    }
+    
+    .nav-links a {
+        padding: 6px 15px;
+    }
+    
+    .responsive {
+        padding: 10px;
+        border-radius: 12px;
+    }
+    
+    .intro-text h2, .intro-text h3 {
+        font-size: 24px;
+        line-height: 1.3;
+    }
+    
+    .intro-text p {
+        font-size: 14px;
+        line-height: 1.6;
+    }
+    
+    .body_man {
+        height: 250px;
+    }
+    
+    .srt_lern, .Watch, .login, .signup {
+        padding: 8px 16px;
+        font-size: 13px;
+        width: 100%;
+        margin: 5px 0;
+        text-align: center;
+    }
+    
+    .stats {
+        gap: 10px;
+    }
+    
+    .stat h3 {
+        font-size: 18px;
+    }
+    
+    .stat p {
+        font-size: 12px;
+    }
+    
+    .card {
+        max-width: 100%;
+        margin: 0 5px 10px 5px;
+    }
+    
+    .card h5 {
+        font-size: 16px;
+        margin: 8px 12px;
+    }
+    
+    .card p {
+        font-size: 12px;
+        margin: 0px 12px 12px 12px;
+    }
+    
+    h4 {
+        font-size: 20px;
+        padding: 15px 10px 0 10px;
+    }
+    
+    .deep_learn {
+        font-size: 14px;
+        padding: 0 5px;
+    }
+    
+    .main_anatomy h2 {
+        font-size: 20px;
+        padding: 0 10px;
+    }
+    
+    .main_anatomy .description {
+        font-size: 14px;
+        padding: 0 10px;
+    }
+    
+    .right_anatomy_img {
+        height: 200px;
+    }
+    
+    .right_anatomy_img img {
+        height: 200px;
+    }
+    
+    .module_section {
+        margin-top: 20px;
+        border-radius: 12px;
+    }
+    
+    .scroller {
+        margin-top: 20px;
+        height: 30px;
+    }
+    
+    .scroller p {
+        padding: 5px 30px;
+        font-size: 11px;
+    }
+    
+    .module {
+        padding: 12px;
+    }
+    
+    .module h4 {
+        font-size: 16px;
+    }
+    
+    .module p {
+        font-size: 12px;
+    }
+    
+    .start_course {
+        height: 24px;
+        padding: 0 8px;
+    }
+    
+    .start_course p {
+        font-size: 12px;
+    }
+    
+    .footer {
+        border-radius: 12px;
+        padding: 15px 0;
+        margin-top: 30px;
+    }
+    
+    .footer p {
+        font-size: 12px;
+        padding: 0 10px;
+    }
+    
+    .social-icons svg {
+        width: 30px;
+        height: 30px;
+        margin: 0 5px;
+    }
+}
+
+/* Extra Small Mobile (360px and below) */
+@media (max-width: 360px) {
+    body {
+        padding: 70px 5px 0 5px;
+        margin: 0px 5px 0 5px;
+    }
+    
+    .header {
+        padding: 5px 10px;
+    }
+    
+    .intro-text h2, .intro-text h3 {
+        font-size: 20px;
+    }
+    
+    .intro-text p {
+        font-size: 13px;
+    }
+    
+    .card {
+        margin: 0 0 10px 0;
+    }
+    
+    .scroller p {
+        padding: 5px 20px;
+    }
+    
+    .module {
+        padding: 10px;
+    }
+}
+
+
+
+
+
+
+
+
+
+/* Контейнер */
+.courses-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* Заголовок */
+.courses-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+.courses-header h1 {
+    font-size: 42px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #2c45b6 0%, #352ac6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+}
+.courses-header .divider {
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(to right, #304bc1, #2d48df);
+    margin: 15px auto;
+    border-radius: 2px;
+}
+
+/* Сетка */
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+}
+
+/* Карточка */
+.course-card {
+    background: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+}
+.course-card .card-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(to right, #667eea, #764ba2);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    transform-origin: left;
+}
+.course-card .card-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+.course-card .card-icon span {
+    color: white;
+    font-size: 24px;
+    font-weight: 600;
+}
+.course-card h3 {
+    color: #2d3748;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.4;
+}
+.course-card .card-footer {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    color: #667eea;
+    font-size: 14px;
+    font-weight: 500;
+    transition: transform 0.3s ease;
+}
+.course-card .card-footer span:last-child {
+    margin-left: 8px;
+    transition: transform 0.3s ease;
+}
+
+/* Hover */
+.course-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.25);
+    border-color: #667eea;
+}
+.course-card:hover .card-top {
+    transform: scaleX(1);
+}
+.course-card:hover .card-footer span:last-child {
+    transform: translateX(5px);
+}
+.course-card:hover .card-icon {
+    transform: scale(1.05);
+}
+
+/* 📱 Респонсив */
+@media (max-width: 768px) {
+    .courses-header h1 {
+        font-size: 32px;
+    }
+    .course-card {
+        padding: 20px;
+    }
+    .course-card h3 {
+        font-size: 18px;
+    }
+}
+@media (max-width: 480px) {
+    .courses-header h1 {
+        font-size: 26px;
+    }
+    .course-card h3 {
+        font-size: 16px;
+    }
+    .courses-grid {
+        grid-template-columns: 1fr; /* одна колонка на телефоне */
+    }
+}
