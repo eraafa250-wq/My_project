@@ -110,7 +110,10 @@ from decouple import config, Csv
 # Секретный ключ и отладка
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+ALLOWED_HOSTS = ["mededu.com.kz", "www.mededu.com.kz", "mededu-74f7.onrender.com"]
+
+
+
 
 # Настройки базы данных через .env
 DATABASES = {
