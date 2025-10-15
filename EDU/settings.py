@@ -20,7 +20,13 @@ INSTALLED_APPS = [
     'users',
     "ckeditor",
     "ckeditor_uploader",
+    'cloudinary',
+    'cloudinary_storage',
 ]
+
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 
 # --- Middleware ---
 MIDDLEWARE = [
