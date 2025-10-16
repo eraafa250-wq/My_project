@@ -112,7 +112,7 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # --- CKEditor ---
 CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_IMAGE_BACKEND = "pillow"
-CKEDITOR_STORAGE_BACKEND = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# Удалена строка CKEDITOR_STORAGE_BACKEND - она не поддерживается
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'full',
@@ -121,6 +121,9 @@ CKEDITOR_CONFIGS = {
         'width': '100%',
     }
 }
+
+# Медиа URL (для совместимости с CKEditor)
+MEDIA_URL = '/media/'
 
 # --- Редиректы ---
 LOGIN_REDIRECT_URL = '/'
