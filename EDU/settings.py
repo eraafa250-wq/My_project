@@ -17,6 +17,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    # ВАЖНО: cloudinary должны быть ДО ckeditor и users
     'cloudinary_storage',
     'cloudinary',
     
@@ -25,14 +27,10 @@ INSTALLED_APPS = [
     'users',
 ]
 
-
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
-
 # --- Middleware ---
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # обязательно после SecurityMiddleware
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -86,8 +84,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-
-
+# --- Cloudinary настройки для медиафайлов ---
 import cloudinary
 
 # Cloudinary автоматически читает CLOUDINARY_URL из переменных окружения
@@ -106,25 +103,27 @@ CLOUDINARY_STORAGE = {
 # Используем Cloudinary для всех медиафайлов (ImageField)
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-
-
-# --- Медиа ---
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / "media"
-
 # --- Статика ---
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]  # твои файлы
-STATIC_ROOT = BASE_DIR / "staticfiles"    # для collectstatic
+STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # --- CKEditor ---
 CKEDITOR_UPLOAD_PATH = "uploads/"
-CKEDITOR_CONFIGS = {'default': {'toolbar': 'full', 'extraAllowedContent': 'iframe[*]'}}
+CKEDITOR_IMAGE_BACKEND = "pillow"
+CKEDITOR_STORAGE_BACKEND = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'extraAllowedContent': 'iframe[*]',
+        'height': 300,
+        'width': '100%',
+    }
+}
 
 # --- Редиректы ---
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-

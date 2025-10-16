@@ -33,7 +33,7 @@ path('', home, name='home'),
 path('ckeditor/', include('ckeditor_uploader.urls')),
 path("courses/", include("users.urls")),
 
-]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
 
 
 
