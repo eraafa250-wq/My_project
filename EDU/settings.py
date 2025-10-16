@@ -17,11 +17,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users',
-    "ckeditor",
-    "ckeditor_uploader",
-    'cloudinary',
     'cloudinary_storage',
+    'cloudinary',
+    
+    'ckeditor',
+    'ckeditor_uploader',
+    'users',
 ]
 
 
@@ -85,6 +86,28 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
+
+
+import cloudinary
+
+# Cloudinary автоматически читает CLOUDINARY_URL из переменных окружения
+cloudinary.config(
+    cloud_name = config('CLOUDINARY_CLOUD_NAME', default='dnhrazwau'),
+    api_key = config('CLOUDINARY_API_KEY', default='816967332389659'),
+    api_secret = config('CLOUDINARY_API_SECRET', default='519gtXPAAKas6u6v5kbpKyvMEeg')
+)
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME', default='dnhrazwau'),
+    'API_KEY': config('CLOUDINARY_API_KEY', default='816967332389659'),
+    'API_SECRET': config('CLOUDINARY_API_SECRET', default='519gtXPAAKas6u6v5kbpKyvMEeg')
+}
+
+# Используем Cloudinary для всех медиафайлов (ImageField)
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+
+
 # --- Медиа ---
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / "media"
@@ -105,4 +128,3 @@ LOGOUT_REDIRECT_URL = '/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
