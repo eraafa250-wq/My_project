@@ -1,6 +1,6 @@
 from pathlib import Path
 import os
-from decouple import config, Csv
+from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -17,11 +17,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
-    # ВАЖНО: cloudinary должны быть ДО ckeditor и users
-    'cloudinary_storage',
-    'cloudinary',
-    
+    'storages',       # ← была пропущена запятая
     'ckeditor',
     'ckeditor_uploader',
     'users',
@@ -84,40 +80,46 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# --- Cloudinary настройки для медиафайлов ---
-import cloudinary
+# --- AWS S3 настройки ---
+from decouple import config
 
-# Cloudinary автоматически читает CLOUDINARY_URL из переменных окружения
-cloudinary.config(
-    cloud_name = config('CLOUDINARY_CLOUD_NAME', default='dnhrazwau'),
-    api_key = config('CLOUDINARY_API_KEY', default='816967332389659'),
-    api_secret = config('CLOUDINARY_API_SECRET', default='519gtXPAAKas6u6v5kbpKyvMEeg')
-)
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME', default='dnhrazwau'),
-    'API_KEY': config('CLOUDINARY_API_KEY', default='816967332389659'),
-    'API_SECRET': config('CLOUDINARY_API_SECRET', default='519gtXPAAKas6u6v5kbpKyvMEeg')
+AWS_STORAGE_BUCKET_NAME = 'erasil-bucket-ww1'
+AWS_S3_REGION_NAME = 'eu-central-1'
+AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+AWS_S3_SIGNATURE_VERSION = "s3v4"
+
+# --- STORAGES (новый формат Django 5.2+) ---
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        "OPTIONS": {
+            "location": "media",
+            "custom_domain": AWS_S3_CUSTOM_DOMAIN,
+        },
+    },
+    "staticfiles": {
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        "OPTIONS": {
+            "location": "static",
+            "custom_domain": AWS_S3_CUSTOM_DOMAIN,
+        },
+    },
 }
 
-# Используем Cloudinary для всех медиафайлов (ImageField)
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
-
-
-# --- Статика ---
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]
+# --- URL для медиа и статики ---
+MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
+STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
-
-
 
 # --- CKEditor ---
 CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_IMAGE_BACKEND = "pillow"
-CKEDITOR_STORAGE_BACKEND = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+CKEDITOR_STORAGE_BACKEND = 'storages.backends.s3boto3.S3Boto3Storage'
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'full',
@@ -126,9 +128,6 @@ CKEDITOR_CONFIGS = {
         'width': '100%',
     }
 }
-
-# Медиа URL (для совместимости с CKEditor)
-MEDIA_URL = '/media/'
 
 # --- Редиректы ---
 LOGIN_REDIRECT_URL = '/'
