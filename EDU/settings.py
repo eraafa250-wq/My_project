@@ -17,7 +17,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'storages',       # ← была пропущена запятая
+    'storages',
     'ckeditor',
     'ckeditor_uploader',
     'users',
@@ -26,6 +26,7 @@ INSTALLED_APPS = [
 # --- Middleware ---
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Добавил обратно для статики
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -79,9 +80,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# --- AWS S3 настройки ---
-from decouple import config
-
+# --- AWS S3 настройки (ТОЛЬКО ДЛЯ МЕДИА) ---
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
@@ -91,8 +90,9 @@ AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
 AWS_S3_SIGNATURE_VERSION = "s3v4"
 
-# --- STORAGES (новый формат Django 5.2+) ---
+# --- STORAGES (Django 5.2+) ---
 STORAGES = {
+    # Медиафайлы на S3
     "default": {
         "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
         "OPTIONS": {
@@ -100,24 +100,23 @@ STORAGES = {
             "custom_domain": AWS_S3_CUSTOM_DOMAIN,
         },
     },
+    # Статические файлы через Whitenoise
     "staticfiles": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
-        "OPTIONS": {
-            "location": "static",
-            "custom_domain": AWS_S3_CUSTOM_DOMAIN,
-        },
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 
-# --- URL для медиа и статики ---
+# --- Медиа ---
 MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
-STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/static/"
+
+# --- Статика (через Whitenoise на Render) ---
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # --- CKEditor ---
 CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_IMAGE_BACKEND = "pillow"
-CKEDITOR_STORAGE_BACKEND = 'storages.backends.s3boto3.S3Boto3Storage'
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'full',
