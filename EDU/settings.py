@@ -103,16 +103,21 @@ CLOUDINARY_STORAGE = {
 # Используем Cloudinary для всех медиафайлов (ImageField)
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
+
+
 # --- Статика ---
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+
+
+
 # --- CKEditor ---
 CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_IMAGE_BACKEND = "pillow"
-# Удалена строка CKEDITOR_STORAGE_BACKEND - она не поддерживается
+CKEDITOR_STORAGE_BACKEND = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'full',
