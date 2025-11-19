@@ -140,23 +140,36 @@ def quiz_view(request, subsection_id):
     score = None
     total = None
 
+    # список данных по каждому вопросу
+    results = []
+
     if request.method == "POST":
         total = quiz.questions.count()
         score = 0
 
         for question in quiz.questions.all():
             selected_answer_id = request.POST.get(f"question_{question.id}")
+            selected_answer = None
+
             if selected_answer_id:
-                answer = Answer.objects.get(id=selected_answer_id)
-                if answer.is_correct:
+                selected_answer = Answer.objects.get(id=selected_answer_id)
+                if selected_answer.is_correct:
                     score += 1
+
+            correct_answer = question.answers.filter(is_correct=True).first()
+
+            results.append({
+                "question": question,
+                "selected": selected_answer,
+                "correct": correct_answer,
+            })
 
     return render(request, "quiz.html", {
         "subsection": subsection,
         "quiz": quiz,
         "score": score,
         "total": total,
+        "results": results,   # добавили
     })
-
 
 

@@ -155,6 +155,7 @@
         .answer-option {
             cursor: pointer;
             display: block;
+            position: relative;
         }
 
         .answer-option input[type="radio"] {
@@ -234,6 +235,83 @@
 
         .answer-option input[type="radio"]:checked + .answer-content .answer-letter {
             background: #155dfc;
+            color: white;
+        }
+
+        /* Стили для отображения результатов */
+        .answer-option.correct .answer-content {
+            background: #f0fdf4;
+            border-color: #22c55e;
+            border-width: 3px;
+        }
+
+        .answer-option.incorrect .answer-content {
+            background: #fef2f2;
+            border-color: #ef4444;
+            border-width: 3px;
+        }
+
+        .answer-option.correct .answer-radio {
+            border-color: #22c55e;
+            background: #22c55e;
+        }
+
+        .answer-option.incorrect .answer-radio {
+            border-color: #ef4444;
+            background: #ef4444;
+        }
+
+        .answer-option.correct .answer-radio::after {
+            content: '✓';
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            background: transparent;
+            width: auto;
+            height: auto;
+        }
+
+        .answer-option.incorrect .answer-radio::after {
+            content: '✕';
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            background: transparent;
+            width: auto;
+            height: auto;
+        }
+
+        .answer-option.correct .answer-letter {
+            background: #22c55e;
+            color: white;
+        }
+
+        .answer-option.incorrect .answer-letter {
+            background: #ef4444;
+            color: white;
+        }
+
+        .answer-option.correct:hover .answer-content,
+        .answer-option.incorrect:hover .answer-content {
+            cursor: default;
+        }
+
+        .answer-status {
+            margin-left: auto;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .answer-status.correct-badge {
+            background: #22c55e;
+            color: white;
+        }
+
+        .answer-status.incorrect-badge {
+            background: #ef4444;
             color: white;
         }
 
@@ -500,26 +578,33 @@
 
                 <!-- Questions -->
                 <div class="questions-wrapper">
-                    {% for question in quiz.questions.all %}
+                    {% for result in results %}
                         <div class="question-card" data-question="{{ forloop.counter }}">
                             <div class="question-number">
                                 Вопрос {{ forloop.counter }} из {{ quiz.questions.count }}
                             </div>
-                            <h3 class="question-text">{{ question.text }}</h3>
+                            <h3 class="question-text">{{ result.question.text }}</h3>
                             
-                            {% if question.image %}
+                            {% if result.question.image %}
                                 <div class="question-image">
-                                    <img  class="img_lessons" src="{{ question.image.url }}" alt="Question image">
+                                    <img class="img_lessons" src="{{ result.question.image.url }}" alt="Question image">
                                 </div>
                             {% endif %}
 
                             <div class="answers-grid">
-                                {% for answer in question.answers.all %}
-                                    <label class="answer-option" data-question-id="{{ question.id }}">
+                                {% for answer in result.question.answers.all %}
+                                    <label class="answer-option 
+                                        {% if score is not None %}
+                                            {% if answer.is_correct %}correct{% endif %}
+                                            {% if result.selected.id == answer.id and not answer.is_correct %}incorrect{% endif %}
+                                        {% endif %}" 
+                                        data-question-id="{{ result.question.id }}">
                                         <input 
                                             type="radio" 
-                                            name="question_{{ question.id }}" 
+                                            name="question_{{ result.question.id }}" 
                                             value="{{ answer.id }}"
+                                            {% if result.selected.id == answer.id %}checked{% endif %}
+                                            {% if score is not None %}disabled{% endif %}
                                             required
                                         >
                                         <div class="answer-content">
@@ -540,15 +625,70 @@
                                                 {% endif %}
                                                 {{ answer.text }}
                                             </div>
+                                            {% if score is not None %}
+                                                {% if answer.is_correct %}
+                                                    <span class="answer-status correct-badge">Правильно</span>
+                                                {% elif result.selected.id == answer.id and not answer.is_correct %}
+                                                    <span class="answer-status incorrect-badge">Неправильно</span>
+                                                {% endif %}
+                                            {% endif %}
                                         </div>
                                     </label>
                                 {% endfor %}
                             </div>
                         </div>
+                    {% empty %}
+                        {% for question in quiz.questions.all %}
+                            <div class="question-card" data-question="{{ forloop.counter }}">
+                                <div class="question-number">
+                                    Вопрос {{ forloop.counter }} из {{ quiz.questions.count }}
+                                </div>
+                                <h3 class="question-text">{{ question.text }}</h3>
+                                
+                                {% if question.image %}
+                                    <div class="question-image">
+                                        <img class="img_lessons" src="{{ question.image.url }}" alt="Question image">
+                                    </div>
+                                {% endif %}
+
+                                <div class="answers-grid">
+                                    {% for answer in question.answers.all %}
+                                        <label class="answer-option" data-question-id="{{ question.id }}">
+                                            <input 
+                                                type="radio" 
+                                                name="question_{{ question.id }}" 
+                                                value="{{ answer.id }}"
+                                                required
+                                            >
+                                            <div class="answer-content">
+                                                <div class="answer-radio"></div>
+                                                <div class="answer-text">
+                                                    {% if forloop.counter == 1 %}
+                                                        <span class="answer-letter">A</span>
+                                                    {% elif forloop.counter == 2 %}
+                                                        <span class="answer-letter">B</span>
+                                                    {% elif forloop.counter == 3 %}
+                                                        <span class="answer-letter">C</span>
+                                                    {% elif forloop.counter == 4 %}
+                                                        <span class="answer-letter">D</span>
+                                                    {% elif forloop.counter == 5 %}
+                                                        <span class="answer-letter">E</span>
+                                                    {% elif forloop.counter == 6 %}
+                                                        <span class="answer-letter">F</span>
+                                                    {% endif %}
+                                                    {{ answer.text }}
+                                                </div>
+                                            </div>
+                                        </label>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endfor %}
                     {% endfor %}
                 </div>
 
                 <!-- Submit Button -->
+                {% if score is None %}
                 <div class="submit-container">
                     <button type="submit" class="submit-btn" id="submitBtn">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -557,20 +697,14 @@
                         Отправить ответы
                     </button>
                 </div>
+                {% endif %}
             </form>
 
             <!-- Results Section -->
-           
- 
- {% if score is not None %}
+            {% if score is not None %}
                 {% widthratio score total 100 as percentage %}
                 <div class="results-container">
                     <div class="results-card {% if percentage >= 70 %}passed{% else %}failed{% endif %}">
-
-                        
-
-
-                        
                         <div class="results-score">
                             <div class="score-number">{{ score }}</div>
                             <div class="score-divider">/</div>
@@ -638,22 +772,24 @@
 
             // Update progress
             function updateProgress() {
-                const answeredQuestions = document.querySelectorAll('input[type="radio"]:checked').length;
+                const answeredQuestions = document.querySelectorAll('input[type="radio"]:checked:not(:disabled)').length;
                 const percentage = (answeredQuestions / totalQuestions) * 100;
                 
-                progressBar.style.width = percentage + '%';
-                progressCount.textContent = answeredQuestions + ' / ' + totalQuestions;
+                if (progressBar && progressCount) {
+                    progressBar.style.width = percentage + '%';
+                    progressCount.textContent = answeredQuestions + ' / ' + totalQuestions;
+                }
             }
 
             // Listen to radio button changes
-            document.querySelectorAll('input[type="radio"]').forEach(function(radio) {
+            document.querySelectorAll('input[type="radio"]:not(:disabled)').forEach(function(radio) {
                 radio.addEventListener('change', updateProgress);
             });
 
             // Form validation
             if (form) {
                 form.addEventListener('submit', function(e) {
-                    const answeredQuestions = document.querySelectorAll('input[type="radio"]:checked').length;
+                    const answeredQuestions = document.querySelectorAll('input[type="radio"]:checked:not(:disabled)').length;
                     
                     if (answeredQuestions < totalQuestions) {
                         e.preventDefault();
